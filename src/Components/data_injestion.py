@@ -8,6 +8,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+sys.path.append('C:\\Users\\yashw\\AI - Python - Self\\Krish_Naik\\ML Projects\\src\\Components\\')
+from data_transformation import DataTransformation
+from model_trainer import ModelTrainer
+
 @dataclass 
 class DataInjestionConfig:
     train_data_path: str=os.path.join('artifacts','train.csv')
@@ -47,10 +51,14 @@ class DataInjestion:
             raise CustomException(e,sys)
         
 
-if __name__ == "__main__":
-    print(f'sys_path --- {sys.path}')
+if __name__=="__main__":
     obj=DataInjestion()
-    obj.initiate_data_injestion()
-    print('file is complete')
+    train_data,test_data=obj.initiate_data_injestion()
+
+    data_transformation=DataTransformation()
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
 
 
